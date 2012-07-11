@@ -1,0 +1,35 @@
+{% block pager_links %}
+	{% set links = pager.getPageLinks %}
+
+	<div class="pagination">
+		<ul>
+			<li class="{{ links['first']['class'] }}">
+				<a href="{{ links['first']['href'] }}">First</a>
+			</li>
+			{% if links['previous'] %}
+				<li class="{{ links['previous']['class'] }}">
+					<a href="{{ links['previous']['href'] }}">Previous</a>
+				</li>
+			{% endif %}
+
+			{% if links['adjacent'] %}
+				{% for key,value in links['adjacent'] %}
+					<li class="{{ value['class'] }}">
+						<a href="{{ value['href'] }}">{{ key }}</a>
+					</li>
+				{% endfor %}
+			{% endif %}
+
+			{% if links['next'] %}
+				<li class="{{ links['next']['class'] }}">
+					<a href="{{ links['next']['href'] }}">Next</a>
+				</li>
+			{% endif %}
+
+			<li class="{{ links['last']['class'] }}">
+				<a href="{{ links['last']['href'] }}">Last</a>
+			</li>
+		</ul>
+	</div>
+
+{% endblock %}
