@@ -20,40 +20,31 @@ Usage
 
 1) Simply get the pager service from the DIC and set the route (With params) on the pager.
 
-{{
+
 	$pager = $this->get('punk_ave.doctrine.orm.pager');
 	$pager->setRoute($this->getRequest()->get('_route'), $this->getRequest()->query->all());
-}}
+
 
 2) Optionally pass the current page to the pager:
 
-{{
 	$currentPage = ($request->query->has('page'))? $request->query->get('page') : 0;
     $pager->setCurrentPage($currentPage);
-}}
 
 3) Pass the QueryBuilder you have setup to the pager:
 
-{{
 	$pager->setQueryBuilder($queryBuilder);
-}}
 
 4) Pass the pager to the view:
 
-{{
 	return $this->render('Bundle:Module:view.html.twig', array(
             'pager' => $pager
         ));
-}}
 
 To get the results simply call:
 
-{{
 	$pager->getResults();
-}}
 
 To get an associative array of page links, simply call:
 
-{{
 	$pager->getPageLinks();
-}}
+
