@@ -38,9 +38,9 @@ Installation
 Usage
 =====
 
-1) Simply get the pager service from the DIC.
+1) Simply get the pager service from the DIC. If no type of pager is specified, DoctrineORM pager is supplied
 
-	$pager = $this->get('punk_ave.doctrine.orm.pager');
+	$pager = $this->get('punk_ave.pager_factory')->createPager("DoctrineORM");
 
 2a) Bind the pager to the current request to set the current page and the current route:
 

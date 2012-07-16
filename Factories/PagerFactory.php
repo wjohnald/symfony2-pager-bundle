@@ -16,7 +16,7 @@ class PagerFactory
      *
      * @return PunkAve\PagerBundle\Interfaces\Pager
      */
-    public function getPager($type = "DoctrineORM")
+    public function createPager($type = "DoctrineORM")
     {
         switch($type)
         {
