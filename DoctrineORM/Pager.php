@@ -37,7 +37,7 @@ class Pager {
 	 *
 	 * @var int
 	 */
-	protected $pageNumber = 0;
+	protected $pageNumber = 1;
 
 	/**
 	 *
@@ -76,7 +76,7 @@ class Pager {
 		$this->maxPerPage = $maxPerPage;
 	}
 
-	public function setCurrentPage($pageNumber = 0)
+	public function setCurrentPage($pageNumber = 1)
 	{
 		$this->pageNumber = $pageNumber;
 	}
@@ -112,7 +112,7 @@ class Pager {
 		return ceil($numResults / $this->maxPerPage);
 	}
 
-	public function getPageLink($pageNumber = 0)
+	public function getPageLink($pageNumber = 1)
 	{
 		$routeParams = $this->routeParams;
 		$routeParams['page'] = $pageNumber;
@@ -122,16 +122,16 @@ class Pager {
 
 	public function getFirstPageLink()
 	{
-		return $this->getPageLink(0);
+		return $this->getPageLink(1);
 	}
 
 	public function getPreviousPageLink()
 	{
 		$currentPage = $this->getCurrentPage();
 
-		if ($currentPage > 0)
+		if ($currentPage > 1)
 		{
-			return $this->getPageLink($currentPage - 1);
+			return $this->getPageLink($currentPage);
 		}
 
 		return null;
@@ -139,7 +139,7 @@ class Pager {
 
 	public function getLastPageLink()
 	{
-		$lastPage = $this->getMaxPages() - 1; // 0-indexed
+		$lastPage = $this->getMaxPages(); // 0-indexed
 
 		return $this->getPageLink($lastPage);
 	}
@@ -148,9 +148,9 @@ class Pager {
 	{
 		$currentPage = $this->getCurrentPage();
 
-		if (($currentPage + 1) < $this->getMaxPages())
+		if ($currentPage < $this->getMaxPages())
 		{
-			return $this->getPageLink($currentPage + 1);
+			return $this->getPageLink($currentPage);
 		}
 
 		return null;
@@ -222,19 +222,19 @@ class Pager {
 	{
 		$pageNumbers = array();
 
-		$n = 0;
+		$n = 1;
 		$i = $this->getCurrentPage() - 2;
 
-		$diff = $this->getMaxPages() - ($this->getCurrentPage() + 1); // +1 accounts for 0-indexing
+		$diff = $this->getMaxPages() - $this->getCurrentPage(); // +1 accounts for 0-indexing
 		if ($diff < 2)
 		{
 			$i -= 2 - $diff;
 		}
 
 
-		while (($n < 5) && ($i < $this->getMaxPages()))
+		while (($n <= 5) && ($i <= $this->getMaxPages()))
 		{
-			if ($i >= 0)
+			if ($i >= 1)
 			{
 				$pageNumbers[] = $i;
 				$n++;
@@ -252,7 +252,7 @@ class Pager {
 	 */
 	public function bindRequest(Request $request)
 	{
-		$this->setCurrentPage(($request->query->has('page'))? $request->query->get('page') : 0);
+		$this->setCurrentPage(($request->query->has('page'))? $request->query->get('page') : 1);
 		$this->setRoute($request->get('_route'), $request->query->all());
 	}
 
@@ -266,7 +266,7 @@ class Pager {
 
 		$paginatedQb = clone $this->queryBuilder;
 		$paginatedQb->setMaxResults($this->maxPerPage);
-		$paginatedQb->setFirstResult($pageNumber * $this->maxPerPage);
+		$paginatedQb->setFirstResult(($pageNumber - 1) * $this->maxPerPage); // -1 accounts for 1-indexing
 		$this->results = $paginatedQb->getQuery()->getResult();
 
 		// Efficiently compute the count without fetching everything
