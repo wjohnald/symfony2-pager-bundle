@@ -249,11 +249,15 @@ class Pager {
 	{
 		$pageNumber = $this->getCurrentPage();
 
-		$this->numResults = count($this->queryBuilder->getQuery()->execute());
 
 		$paginatedQb = clone $this->queryBuilder;
 		$paginatedQb->setMaxResults($this->maxPerPage);
 		$paginatedQb->setFirstResult($pageNumber * $this->maxPerPage);
-		$this->results = $paginatedQb->getQuery()->execute();
+		$this->results = $paginatedQb->getQuery()->getResult();
+
+		// Efficiently compute the count without fetching everything
+		$countQb = clone $this->queryBuilder;
+		$countQb->select('COUNT(' . $countQb->getRootAlias() . '.id)');
+		$this->numResults = $countQb->getQuery()->getSingleScalarResult();
 	}
 }
