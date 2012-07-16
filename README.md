@@ -14,6 +14,26 @@ Requirements
 * Twig
 * Bootstrap (optional)
 
+Installation
+============
+
+1) Add the following line to your Symfony2 deps file:
+    
+    [PagerBundle]
+        git=http://github.com/punkave/symfony2-doctrine-pager.git
+        target=/bundles/PunkAve/PagerBundle
+
+2) Modify your AppKernel with the following line:
+
+    new PunkAve\PagerBundle\PunkAvePagerBundle(),
+
+3) Add the following line to your autoload.php file:
+
+    'PunkAve' => __DIR__.'/../vendor/bundles',
+
+4) Install your vendors
+
+    bin/vendors install
 
 Usage
 =====

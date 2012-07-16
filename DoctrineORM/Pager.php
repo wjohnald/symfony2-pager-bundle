@@ -1,16 +1,12 @@
 <?php
 
-namespace PunkAve\DoctrinePagerBundle\DoctrineORM;
+namespace PunkAve\PagerBundle\DoctrineORM;
 
 use Doctrine\ORM\QueryBuilder as QueryBuilder;
 use Symfony\Component\HttpFoundation\Request as Request;
+use PunkAve\PagerBundle\Interfaces\Pager as PagerInterface;
 
-class Pager {
-
-	public function __construct($router)
-	{
-		$this->router = $router;
-	}
+class Pager implements PagerInterface {
 
 	/**
 	 * 
@@ -38,6 +34,14 @@ class Pager {
 	 * @var int
 	 */
 	protected $pageNumber = 1;
+
+	/**
+	 * Sets the default router for route generation
+	 */
+	public function setRouter($router)
+	{
+		$this->router = $router;
+	}
 
 	/**
 	 *
