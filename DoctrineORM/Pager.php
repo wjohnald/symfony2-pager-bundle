@@ -3,6 +3,7 @@
 namespace PunkAve\DoctrinePagerBundle\DoctrineORM;
 
 use Doctrine\ORM\QueryBuilder as QueryBuilder;
+use Symfony\Component\HttpFoundation\Request as Request;
 
 class Pager {
 
@@ -245,6 +246,19 @@ class Pager {
 		return $pageNumbers;
 	}
 
+	/**
+	 * This method takes a Symfony\Component\HttpFoundation\Request. It will
+	 * set the current route for the pager as well as the current page.
+	 */
+	public function bindRequest(Request $request)
+	{
+		$this->setCurrentPage(($request->query->has('page'))? $request->query->get('page') : 0);
+		$this->setRoute($request->get('_route'), $request->query->all());
+	}
+
+	/**
+	 * This method will perform the query and cache the results
+	 */
 	protected function computeResults()
 	{
 		$pageNumber = $this->getCurrentPage();
