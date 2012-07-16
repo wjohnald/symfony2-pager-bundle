@@ -1,6 +1,7 @@
 parameters:
 
 services:
-    punk_ave.doctrine.orm.pager:
-        class: PunkAve\DoctrinePagerBundle\DoctrineORM\Pager
+    punk_ave.pager_factory:
+        class: PunkAve\PagerBundle\Factories\PagerFactory
         arguments: ['@router']
+
