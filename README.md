@@ -14,21 +14,44 @@ Requirements
 * Twig
 * Bootstrap (optional)
 
+Installation
+============
+
+1) Add the following line to your Symfony2 deps file:
+    
+    [PagerBundle]
+        git=http://github.com/punkave/symfony2-doctrine-pager.git
+        target=/bundles/PunkAve/PagerBundle
+
+2) Modify your AppKernel with the following line:
+
+    new PunkAve\PagerBundle\PunkAvePagerBundle(),
+
+3) Add the following line to your autoload.php file:
+
+    'PunkAve' => __DIR__.'/../vendor/bundles',
+
+4) Install your vendors
+
+    bin/vendors install
 
 Usage
 =====
 
-1) Simply get the pager service from the DIC and set the route (With params) on the pager.
+1) Simply get the pager service from the DIC. If no type of pager is specified, DoctrineORM pager is supplied
 
+	$pager = $this->get('punk_ave.pager_factory')->createPager("DoctrineORM");
 
-	$pager = $this->get('punk_ave.doctrine.orm.pager');
-	$pager->setRoute($this->getRequest()->get('_route'), $this->getRequest()->query->all());
+2a) Bind the pager to the current request to set the current page and the current route:
 
+    $request = $this->getRequest();
+    $pager->bindRequest($request);
 
-2) Optionally pass the current page to the pager:
+2b) Optionally pass the current page to the pager and set the route (With params) on the pager:
 
 	$currentPage = ($request->query->has('page'))? $request->query->get('page') : 0;
     $pager->setCurrentPage($currentPage);
+    $pager->setRoute($this->getRequest()->get('_route'), $this->getRequest()->query->all());
 
 3) Pass the QueryBuilder you have setup to the pager:
 
