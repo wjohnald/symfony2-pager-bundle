@@ -71,3 +71,8 @@ To get an associative array of page links, simply call:
 
 	$pager->getPageLinks();
 
+5) Optionally include the provided pager view in your action's view:
+
+    {% include 'PunkAvePagerBundle:Pager:pager.html.twig' %}
+
+The pager has been styled using Bootstrap conventions. If you have Bootstrap in your project, the pager should look pretty!
