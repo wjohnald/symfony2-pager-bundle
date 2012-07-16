@@ -135,7 +135,7 @@ class Pager implements PagerInterface {
 
 		if ($currentPage > 1)
 		{
-			return $this->getPageLink($currentPage);
+			return $this->getPageLink($currentPage - 1);
 		}
 
 		return null;
@@ -154,7 +154,7 @@ class Pager implements PagerInterface {
 
 		if ($currentPage < $this->getMaxPages())
 		{
-			return $this->getPageLink($currentPage);
+			return $this->getPageLink($currentPage + 1);
 		}
 
 		return null;
