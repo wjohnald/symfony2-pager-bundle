@@ -47,6 +47,10 @@ Usage
     $request = $this->getRequest();
     $pager->bindRequest($request);
 
+    WARNING: if you are using "forward()" rather than "redirect()" to pass a request to a different action, you
+    must specify the route explicitly, as the request has no _route property after a forward(). See 
+    2b) for how to do this. You can still use bindRequest() to take care of the page parameter.
+
 2b) Optionally pass the current page to the pager and set the route (With params) on the pager:
 
 	$currentPage = ($request->query->has('page'))? $request->query->get('page') : 0;
